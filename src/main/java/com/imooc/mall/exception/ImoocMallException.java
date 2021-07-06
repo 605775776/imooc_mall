@@ -5,7 +5,7 @@ package com.imooc.mall.exception;
  * @Description          service层统一异常
  * @create 2021-07-06 15:33
  */
-public class ImoocMallException extends Exception {
+public class ImoocMallException extends RuntimeException{
 
     private final Integer code;
     private final String message;
