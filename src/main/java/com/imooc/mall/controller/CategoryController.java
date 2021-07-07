@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 /**
  * Description:
@@ -30,10 +31,10 @@ public class CategoryController {
 
     @PostMapping("/admin/category/add")
     public ApiRestResponse addCategory(HttpSession session,
-                                    @RequestBody AddCategoryReq addCategoryReq){
-        if (addCategoryReq.getName() == null || addCategoryReq.getType() == null || addCategoryReq.getOrderNum() == null || addCategoryReq.getParentId() == null){
-            return ApiRestResponse.error(ImoocMallExceptionEnum.NAME_NOT_NULL);
-        }
+                                    @Valid @RequestBody AddCategoryReq addCategoryReq){
+//        if (addCategoryReq.getName() == null || addCategoryReq.getType() == null || addCategoryReq.getOrderNum() == null || addCategoryReq.getParentId() == null){
+//            return ApiRestResponse.error(ImoocMallExceptionEnum.NAME_NOT_NULL);
+//        }
         User currentUser = (User)session.getAttribute(Constant.IMOOC_MALL_USER);
         if (currentUser == null) {
             return ApiRestResponse.error(ImoocMallExceptionEnum.NEED_LOGIN);

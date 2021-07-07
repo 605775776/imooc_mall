@@ -1,5 +1,9 @@
 package com.imooc.mall.model.request;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 /**
  * Description:  addCategory请求类
  * Author: dsw
@@ -7,9 +11,17 @@ package com.imooc.mall.model.request;
  */
 
 public class AddCategoryReq {
+    @Size(min = 2,max = 5)
     private String name;
+
+    @NotNull
+    @Max(3)
     private Integer type;
+
+    @NotNull(message = "parentId不能为null")
     private Integer parentId;
+
+    @NotNull(message = "orderNum不能为null")
     private Integer orderNum;
 
     public String getName() {
