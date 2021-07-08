@@ -17,6 +17,7 @@ public enum ImoocMallExceptionEnum {
     NEED_ADMIN(10009,"非管理员无权操作"),
     NAME_NOT_NULL(10010, "参数不能为空"),
     CREATE_FAILED(10011, "新增数据失败请重试"),
+    DELETE_FAILED(10013,"删除失败"),
     REQUEST_PARAM_ERROR(10012,"参数错误"),
 
     SYSTEM_ERROR(20000, "系统异常");
