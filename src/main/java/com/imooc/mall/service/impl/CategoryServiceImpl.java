@@ -9,10 +9,14 @@ import com.imooc.mall.model.pojo.Category;
 import com.imooc.mall.model.request.AddCategoryReq;
 import com.imooc.mall.model.vo.CategoryVO;
 import com.imooc.mall.service.CategoryService;
+import io.swagger.models.auth.In;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -75,7 +79,7 @@ public class CategoryServiceImpl implements CategoryService {
         }
     }
 
-
+//    后台分页展示目录列表
     @Override
     public PageInfo listForAdmin(Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize, "type, order_num");
@@ -84,7 +88,34 @@ public class CategoryServiceImpl implements CategoryService {
         return pageInfo;
     }
 
+//      前台分页展示目录列表
+    @Override
+    @Cacheable(value = "listCategoryForCustomer")
+    public List<CategoryVO> listCategoryForCustomer(Integer parentId){
+        ArrayList<CategoryVO> categoryVOArrayList = new ArrayList<>();
+        recursivelyFindCategories(categoryVOArrayList, 0);
+        return categoryVOArrayList;
+    }
 
+
+
+    private void recursivelyFindCategories(List<CategoryVO> categoryVOList, Integer parentId){
+
+        // 递归获取所有子类别 并组合成为一个目录树
+        List<Category> categoryList = categoryMapper.selectCategoriesByParentId(parentId);
+        // 判断集合为空
+        if (!CollectionUtils.isEmpty(categoryList)) {
+            for (int i = 0; i < categoryList.size(); i++) {
+                Category category =  categoryList.get(i);
+                CategoryVO categoryVO = new CategoryVO();
+                BeanUtils.copyProperties(category, categoryVO);
+                categoryVOList.add(categoryVO);
+               recursivelyFindCategories(categoryVO.getChildCategory(), categoryVO.getId());
+            }
+
+        }
+
+    }
 
 }
 

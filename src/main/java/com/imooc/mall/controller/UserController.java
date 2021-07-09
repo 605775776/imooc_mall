@@ -29,11 +29,11 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @GetMapping("test")
-    public User personalPage() {
-
-        return userService.getUser();
-    }
+//    @GetMapping("test")
+//    public User personalPage() {
+//
+//        return userService.getUser();
+//    }
 
 
     //    注册用户
@@ -75,6 +75,8 @@ public class UserController {
 
     }
 
+
+    // 更新个性签名接口
     @PostMapping("/user/update")
     public ApiRestResponse updateUserInfo(HttpSession session, @RequestParam String signature) throws ImoocMallException {
         User currentUser = (User) session.getAttribute(Constant.IMOOC_MALL_USER);
@@ -98,7 +100,7 @@ public class UserController {
 
 
     //    管理员登录
-// 登录
+
     @PostMapping("/adminLogin")
     public ApiRestResponse adminLogin(@RequestParam("username") String username, @RequestParam("password") String password, HttpSession session) throws ImoocMallException {
         if (StringUtils.isEmpty(username)) {

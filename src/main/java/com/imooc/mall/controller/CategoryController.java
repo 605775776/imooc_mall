@@ -8,9 +8,10 @@ import com.imooc.mall.model.pojo.Category;
 import com.imooc.mall.model.pojo.User;
 import com.imooc.mall.model.request.AddCategoryReq;
 import com.imooc.mall.model.request.UpdateCategoryReq;
+import com.imooc.mall.model.vo.CategoryVO;
 import com.imooc.mall.service.CategoryService;
 import com.imooc.mall.service.UserService;
-import com.sun.org.apache.regexp.internal.RE;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * Description:
@@ -88,5 +90,12 @@ public class CategoryController {
         return ApiRestResponse.success(pageInfo);
     }
 
+    @ApiOperation("前台展示目录列表")
+    @PostMapping("category/list")
+    public ApiRestResponse listCategoryForCustomer(){
+        List<CategoryVO> categoryVOS = categoryService.listCategoryForCustomer(0);
+        return ApiRestResponse.success(categoryVOS);
+
+    }
 
 }
