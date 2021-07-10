@@ -1,5 +1,7 @@
 package com.imooc.mall.exception;
 
+import org.omg.CORBA.OBJECT_NOT_EXIST;
+
 /**
  * @author dsw
  * @Description           异常枚举
@@ -22,9 +24,8 @@ public enum ImoocMallExceptionEnum {
     MKDIR_FAILED(10014,"文件夹创建失败"),
     UPLOAD_FAILED(10015,"图片上传失败"),
 
-    SYSTEM_ERROR(20000, "系统异常");
-
-
+    SYSTEM_ERROR(20000, "系统异常"),
+    OBJECT_NOT_EXIST(30000, "未查询到对象");
     Integer code;
 
     String msg;

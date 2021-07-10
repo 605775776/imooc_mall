@@ -1,6 +1,6 @@
 package com.imooc.mall.common;
 
-//import com.google.common.collect.Sets;
+import com.google.common.collect.Sets;
 import com.imooc.mall.exception.ImoocMallException;
 import com.imooc.mall.exception.ImoocMallExceptionEnum;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,12 +28,14 @@ public class Constant {
     public void setFileUploadDir(String fileUploadDir) {
         FILE_UPLOAD_DIR = fileUploadDir;
     }
+
+    public interface ProductListOrderBy {
+        Set<String> PRICE_ASC_DESC = Sets.newHashSet("price desc", "price asc");
 }
-//
-//    public interface ProductListOrderBy {
-//        Set<String> PRICE_ASC_DESC = Sets.newHashSet("price desc", "price asc");
-//
-//    }
+//排序
+
+
+    }
 //
 //    public interface SaleStatus {
 //        int NOT_SALE = 0;//商品下架状态
