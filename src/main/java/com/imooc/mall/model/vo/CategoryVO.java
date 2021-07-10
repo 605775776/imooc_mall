@@ -20,6 +20,8 @@ public class CategoryVO implements Serializable {
 
     private Date updateTime;
 
+
+    // 列表
     public List<CategoryVO> getChildCategory() {
         return childCategory;
     }

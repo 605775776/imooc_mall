@@ -1,5 +1,7 @@
 package com.imooc.mall.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.imooc.mall.common.ApiRestResponse;
 import com.imooc.mall.exception.ImoocMallException;
 import com.imooc.mall.exception.ImoocMallExceptionEnum;
@@ -11,6 +13,9 @@ import com.imooc.mall.service.ProductService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 /**
  * Description:
@@ -63,6 +68,23 @@ public class ProductServiceImpl implements ProductService {
             throw new ImoocMallException(ImoocMallExceptionEnum.DELETE_FAILED);
         }
 
+
+    }
+
+    // 批量上下架
+    @Override
+    public void batchUpdateSellStatus(Integer[] ids, Integer sellStatus){
+        int count = productMapper.batchUpdateSellStatus(ids, sellStatus);
+
+    }
+
+    // 后台商品列表分页展示
+    @Override
+    public PageInfo listForAdmin(Integer pageNum, Integer pageSize){
+        PageHelper.startPage(pageNum, pageSize);
+        List<Product> products = productMapper.selectListForAdmin();
+        PageInfo pageInfo = new PageInfo(products);
+        return pageInfo;
 
     }
 
