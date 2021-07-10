@@ -2,6 +2,9 @@ package com.imooc.mall.model.request;
 
 import io.swagger.models.auth.In;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
@@ -12,24 +15,27 @@ import java.util.Date;
 
 public class AddProductReq {
 
-
+    @NotNull(message = "商品名称不能为空")
     private String name;
 
+    @NotNull(message = "商品图片不能为空")
     private String image;
 
     private String detail;
 
+    @NotNull(message = "商品分类不能为空")
     private Integer categoryId;
 
+    @NotNull(message = "商品价格不能为空")
+    @Min(value=1, message = "价格最低1分钱")
     private Integer price;
 
+    @NotNull(message = "商品库存不能为空")
+    @Min(1)
+    @Max(value = 10000, message = "库存最多10000件")
     private Integer stock;
 
     private Integer status;
-
-    private Date createTime;
-
-    private Date updateTime;
 
     public String getName() {
         return name;
@@ -87,21 +93,6 @@ public class AddProductReq {
         this.status = status;
     }
 
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
 
     @Override
     public String toString() {
@@ -113,8 +104,6 @@ public class AddProductReq {
                 ", price=" + price +
                 ", stock=" + stock +
                 ", status=" + status +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
                 '}';
     }
 }

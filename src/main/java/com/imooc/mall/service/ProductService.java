@@ -1,5 +1,8 @@
 package com.imooc.mall.service;
 
+import com.imooc.mall.model.pojo.Product;
+import com.imooc.mall.model.request.AddProductReq;
+
 /**
  * Description:
  * Author: dsw
@@ -9,5 +12,9 @@ package com.imooc.mall.service;
 public interface ProductService {
 
 
-    void addProduct();
+    void addProduct(AddProductReq addProductReq);
+
+    void updateProduct(Product updateProduct);
+
+    void deleteProduct(Integer id);
 }

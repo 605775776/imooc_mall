@@ -15,15 +15,19 @@ import java.util.Set;
 public class Constant {
     public static final String IMOOC_MALL_USER = "imooc_mall_user";
     public static final String SALT = "1qaz@WSX";
+
+//
+//    @Value("${file.upload.dir}")
+    // 静态变量无法直接Value注入
     public static String FILE_UPLOAD_DIR;
 
 //    public static final String IMOOC_MALL_USER = "imooc_mall_user";
 
-    //
-//    @Value("${file.upload.dir}")
-//    public void setFileUploadDir(String fileUploadDir) {
-//        FILE_UPLOAD_DIR = fileUploadDir;
-//    }
+    // 上传文件地址
+    @Value("${file.upload.dir}")
+    public void setFileUploadDir(String fileUploadDir) {
+        FILE_UPLOAD_DIR = fileUploadDir;
+    }
 }
 //
 //    public interface ProductListOrderBy {
