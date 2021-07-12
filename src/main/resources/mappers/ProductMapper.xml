@@ -178,7 +178,7 @@
     from imooc_mall_product
     <where>
       <if test="query.keyword != null">
-        and name like #{query.keyword},
+        and name like #{query.keyword}
       </if>
       <if test="query.categoryIds != null">
         and category_id in

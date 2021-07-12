@@ -4,8 +4,7 @@ import java.util.Date;
 
 public class ProductListReq {
 
-
-    private String Keyword;
+    private String keyword;
 
     private Integer categoryId;
 
@@ -16,11 +15,11 @@ public class ProductListReq {
     private Integer pageSize=10;
 
     public String getKeyword() {
-        return Keyword;
-    }
+    return keyword;
+}
 
     public void setKeyword(String keyword) {
-        Keyword = keyword;
+        this.keyword = keyword;
     }
 
     public Integer getCategoryId() {
@@ -58,7 +57,7 @@ public class ProductListReq {
     @Override
     public String toString() {
         return "ProductListReq{" +
-                "Keyword='" + Keyword + '\'' +
+                "Keyword='" + keyword + '\'' +
                 ", categoryId=" + categoryId +
                 ", orderBy='" + orderBy + '\'' +
                 ", pageNum=" + pageNum +

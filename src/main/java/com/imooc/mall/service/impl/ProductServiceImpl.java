@@ -111,19 +111,28 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public PageInfo list(ProductListReq productListReq){
         ProductListQuery productListQuery = new ProductListQuery();
-
+        System.out.println(productListQuery.getKeyword());
+        System.out.println(productListReq.getKeyword());
         // 搜索处理
-        if (!StringUtils.isEmpty(productListQuery.getKeyword())) {
-            String keyword = new StringBuilder().append('%').append(productListQuery.getKeyword()).append('%').toString();
+        if (!StringUtils.isEmpty(productListReq.getKeyword())) {
+            System.out.println("11111111111111111");
+            String keyword = new StringBuilder().append('%').append(productListReq.getKeyword()).append('%').toString();
             productListQuery.setKeyword(keyword);
         }
         // 目录处理 查询某个目录下的商品 不仅查出该目录的 还有其子目录的商品也要查出来 所以要拿到目录的list
         if (productListReq.getCategoryId() != null) {
             List<CategoryVO> categoryVOList = categoryService.listCategoryForCustomer(productListReq.getCategoryId());
+//            for (int i = 0; i < categoryVOList.size(); i++) {
+//                CategoryVO categoryVO =  categoryVOList.get(i);
+//                System.out.println(categoryVO);
+//            }
             ArrayList<Integer> categoryIds = new ArrayList<>();
+            System.out.println(productListReq.getCategoryId());
+
             categoryIds.add(productListReq.getCategoryId());
             getCategoryIds(categoryVOList, categoryIds);
             productListQuery.setCategoryIds(categoryIds);
+            System.out.println(productListQuery.getCategoryIds());
         }
 
         // 排序处理
