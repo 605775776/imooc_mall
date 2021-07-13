@@ -1,5 +1,7 @@
 package com.imooc.mall.controller;
 
+import com.imooc.mall.common.ApiRestResponse;
+import com.imooc.mall.model.request.CreateOrderReq;
 import com.imooc.mall.model.vo.CartVO;
 import com.imooc.mall.service.CartService;
 import com.imooc.mall.service.OrderService;
@@ -11,7 +13,7 @@ import java.util.List;
 
 /**
  * @author dsw
- * @Description
+ * @Description     订单Contorller
  * @create 2021-07-13 12:44
  */
 @RestController
@@ -27,7 +29,9 @@ public class OrderController {
 
     @PostMapping("/create")
     @ApiOperation("创建订单")
-    public void createOrder(@RequestParam String receiverName, @RequestParam String receiverMobile, @RequestParam String receiverAddress){
+    public ApiRestResponse create(@RequestBody CreateOrderReq createOrderReq){
+        String orderNo = orderService.create(createOrderReq);
+        return ApiRestResponse.success(orderNo);
 
     }
 
@@ -37,11 +41,11 @@ public class OrderController {
 
     }
 
-    @PostMapping("/list")
-    @ApiOperation("订单列表")
-    public List<> orderList(@RequestParam Integer pageNum, @RequestParam Integer pageSize){
-
-    }
+//    @PostMapping("/list")
+//    @ApiOperation("订单列表")
+//    public List<> orderList(@RequestParam Integer pageNum, @RequestParam Integer pageSize){
+//
+//    }
 
 
     @PostMapping("/cancel")
