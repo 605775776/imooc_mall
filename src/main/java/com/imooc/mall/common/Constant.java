@@ -66,7 +66,6 @@ public class Constant {
             }
             throw new ImoocMallException(ImoocMallExceptionEnum.NO_ENUM);
         }
-
         public String getValue() {
             return value;
         }

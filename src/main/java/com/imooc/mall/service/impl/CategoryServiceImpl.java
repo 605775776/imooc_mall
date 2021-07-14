@@ -2,6 +2,7 @@ package com.imooc.mall.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.imooc.mall.common.Constant;
 import com.imooc.mall.exception.ImoocMallException;
 import com.imooc.mall.exception.ImoocMallExceptionEnum;
 import com.imooc.mall.model.dao.CategoryMapper;
@@ -94,6 +95,7 @@ public class CategoryServiceImpl implements CategoryService {
     public List<CategoryVO> listCategoryForCustomer(Integer parentId){
         ArrayList<CategoryVO> categoryVOArrayList = new ArrayList<>();
         recursivelyFindCategories(categoryVOArrayList, parentId);
+
         return categoryVOArrayList;
     }
 

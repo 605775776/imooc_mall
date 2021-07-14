@@ -1,8 +1,10 @@
 package com.imooc.mall.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.imooc.mall.common.ApiRestResponse;
 import com.imooc.mall.model.request.CreateOrderReq;
 import com.imooc.mall.model.vo.CartVO;
+import com.imooc.mall.model.vo.OrderVO;
 import com.imooc.mall.service.CartService;
 import com.imooc.mall.service.OrderService;
 import io.swagger.annotations.ApiOperation;
@@ -35,17 +37,19 @@ public class OrderController {
 
     }
 
-    @PostMapping("/detail")
-    @ApiOperation("订单详情")
-    public void orderDetail(@RequestParam Integer orderNo){
-
+    @GetMapping("/detail")
+    @ApiOperation("前台订单详情")
+    public ApiRestResponse orderDetail(@RequestParam String orderNo){
+        OrderVO orderVO = orderService.detail(orderNo);
+        return ApiRestResponse.success(orderVO);
     }
 
-//    @PostMapping("/list")
-//    @ApiOperation("订单列表")
-//    public List<> orderList(@RequestParam Integer pageNum, @RequestParam Integer pageSize){
-//
-//    }
+    @GetMapping("/list")
+    @ApiOperation("前台订单列表")
+    public ApiRestResponse list(@RequestParam Integer pageNum, @RequestParam Integer pageSize){
+        PageInfo pageInfo = orderService.listForCustomer(pageNum, pageSize);
+        return ApiRestResponse.success(pageInfo);
+    }
 
 
     @PostMapping("/cancel")

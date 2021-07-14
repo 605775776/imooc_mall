@@ -1,5 +1,7 @@
 package com.imooc.mall.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.imooc.mall.common.Constant;
 import com.imooc.mall.exception.ImoocMallException;
 import com.imooc.mall.exception.ImoocMallExceptionEnum;
@@ -13,13 +15,17 @@ import com.imooc.mall.model.pojo.OrderItem;
 import com.imooc.mall.model.pojo.Product;
 import com.imooc.mall.model.request.CreateOrderReq;
 import com.imooc.mall.model.vo.CartVO;
+import com.imooc.mall.model.vo.OrderItemVO;
+import com.imooc.mall.model.vo.OrderVO;
 import com.imooc.mall.service.CartService;
 import com.imooc.mall.service.OrderService;
 import com.imooc.mall.util.OrderCodeFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.redis.connection.SortParameters;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.validation.Valid;
@@ -51,6 +57,9 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     OrderItemMapper orderItemMapper;
 
+    // 数据库事务
+    // 创建订单
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public String create(CreateOrderReq createOrderReq){
         // 拿到用户id
@@ -182,9 +191,62 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
+    @Override
+    public OrderVO detail(String orderNo) {
+        Order order = orderMapper.selectByOrderNo(orderNo);
+        // 判断订单是否为空
+        if (order == null) {
+            throw new ImoocMallException(ImoocMallExceptionEnum.NO_ORDER);
+        }
+        // 判断订单是不是本人的
+        if (!order.getUserId().equals(UserFilter.currentUser.getId())){
+            throw new ImoocMallException(ImoocMallExceptionEnum.NOT_YOUR_ORDER);
+        }
 
+        OrderVO orderVO = getOrderVO(order);
+        return orderVO;
 
+    }
+    private OrderVO getOrderVO(Order order){
+        OrderVO orderVO = new OrderVO();
+        BeanUtils.copyProperties(order, orderVO);
+        // 获取订单对应的orderItemList
+        List<OrderItem> orderItemList = orderItemMapper.selectByOrderNo(order.getOrderNo());
+        List<OrderItemVO> orderItemVOList = new ArrayList<>();
+        for (int i = 0; i < orderItemList.size(); i++) {
+            OrderItem orderItem =  orderItemList.get(i);
+            OrderItemVO orderItemVO = new OrderItemVO();
+            BeanUtils.copyProperties(orderItem, orderItemVO);
+            orderItemVOList.add(orderItemVO);
+        }
+        orderVO.setOrderItemVOList(orderItemVOList);
+        orderVO.setOrderStatusName(Constant.OrderStatusEnum.codeOf(orderVO.getOrderStatus()).getValue());
+        return orderVO;
+    }
 
+    @Override
+    public PageInfo listForCustomer(Integer pageNum, Integer pageSize){
+        PageHelper.startPage(pageNum, pageSize);
+        List<Order> orderList = orderMapper.selectForCustomer(UserFilter.currentUser.getId());
+        List<OrderVO> orderVOList = orderListToOrderVOList(orderList);
+        // 为什么一定是用mapper查出来的list 而不是最终的list
+        PageInfo pageInfo = new PageInfo<>(orderList);
+        pageInfo.setList(orderVOList);
+        return pageInfo;
+        }
 
+    private List<OrderVO> orderListToOrderVOList(List<Order> orderList) {
+        List<OrderVO> orderVOList = new ArrayList<>();
+        for (int i = 0; i < orderList.size(); i++) {
+            Order order =  orderList.get(i);
+            OrderVO orderVO = getOrderVO(order);
+            orderVOList.add(orderVO);
+        }
+        return orderVOList;
+    }
 
 }
+
+
+
+
