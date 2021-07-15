@@ -32,6 +32,7 @@ import javax.validation.Valid;
 import java.awt.image.ImagingOpException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -243,6 +244,28 @@ public class OrderServiceImpl implements OrderService {
             orderVOList.add(orderVO);
         }
         return orderVOList;
+    }
+
+    @Override
+    public void cancel(String orderNo){
+        Order order = orderMapper.selectByOrderNo(orderNo);
+        // 查不到
+        if (order == null) {
+            throw new ImoocMallException(ImoocMallExceptionEnum.NO_ORDER);
+        }
+        Integer userId = UserFilter.currentUser.getId();
+        if (!order.getUserId().equals(userId)) {
+            throw new ImoocMallException(ImoocMallExceptionEnum.NOT_YOUR_ORDER);
+        }
+        // 订单状态是未付款
+        if (order.getOrderStatus().equals(Constant.OrderStatusEnum.NOT_PAID.getCode())) {
+            order.setOrderStatus(Constant.OrderStatusEnum.CANCELED.getCode());
+            order.setEndTime(new Date());
+            orderMapper.updateByPrimaryKeySelective(order);
+        }else{
+            throw new ImoocMallException(ImoocMallExceptionEnum.WRONG_ORDER_STATUS);
+        }
+
     }
 
 }

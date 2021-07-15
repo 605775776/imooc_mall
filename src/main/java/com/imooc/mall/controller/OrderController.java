@@ -53,9 +53,10 @@ public class OrderController {
 
 
     @PostMapping("/cancel")
-    @ApiOperation("取消订单")
-    public void cancelOrder(@RequestParam Integer orderNo){
-
+    @ApiOperation("前台取消订单")
+    public ApiRestResponse cancel(@RequestParam String orderNo){
+        orderService.cancel(orderNo);
+        return ApiRestResponse.success();
     }
 
     @PostMapping("/qrcode")
