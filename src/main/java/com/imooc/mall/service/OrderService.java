@@ -19,4 +19,7 @@ public interface OrderService {
     PageInfo listForCustomer(Integer pageNum, Integer pageSize);
 
     void cancel(String orderNo);
+
+    // 二维码地址
+    String qrcode(String orderNo);
 }

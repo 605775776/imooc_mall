@@ -59,10 +59,11 @@ public class OrderController {
         return ApiRestResponse.success();
     }
 
-    @PostMapping("/qrcode")
-    @ApiOperation("取消订单")
-    public void createQrcode(@RequestParam Integer orderNo){
-
+    @GetMapping("/qrcode")
+    @ApiOperation("生成支付二维码")
+    public ApiRestResponse createQrcode(@RequestParam Integer orderNo){
+        orderService.qrcode(orderNo);
+        return ApiRestResponse.success()
     }
 
     @GetMapping("/pay")

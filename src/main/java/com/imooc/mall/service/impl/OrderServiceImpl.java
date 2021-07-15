@@ -268,6 +268,12 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
+    // 二维码地址
+    @Override
+    public String qrcode(String orderNo){
+
+    }
+
 }
 
 
