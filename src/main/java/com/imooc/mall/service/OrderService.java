@@ -22,4 +22,12 @@ public interface OrderService {
 
     // 二维码地址
     String qrcode(String orderNo);
+
+    PageInfo listForAdmin(Integer pageNum, Integer pageSize);
+
+    void pay(String OrderNo);
+
+    void deliver(String OrderNo);
+
+    void finish(String orderNo);
 }

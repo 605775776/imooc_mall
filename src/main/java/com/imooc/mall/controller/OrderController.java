@@ -59,17 +59,18 @@ public class OrderController {
         return ApiRestResponse.success();
     }
 
-    @GetMapping("/qrcode")
+    @PostMapping("/qrcode")
     @ApiOperation("生成支付二维码")
-    public ApiRestResponse createQrcode(@RequestParam Integer orderNo){
-        orderService.qrcode(orderNo);
-        return ApiRestResponse.success()
+    public ApiRestResponse qrcode(@RequestParam String orderNo){
+        String pngAddress = orderService.qrcode(orderNo);
+        return ApiRestResponse.success(pngAddress);
     }
 
     @GetMapping("/pay")
     @ApiOperation("支付订单")
-    public void payOrder(@RequestParam Integer orderNo){
-
+    public ApiRestResponse<Object> pay(@RequestParam String orderNo){
+        orderService.pay(orderNo);
+        return ApiRestResponse.success();
     }
 
     @PostMapping("/admin/order/list")
@@ -78,16 +79,19 @@ public class OrderController {
 
     }
 
-
-    @PostMapping("/admin/order/delivered")
+    // 后台 0 取消 10 未付 20 已付 30 已发 40 完成
+    @PostMapping("/admin/deliver")
     @ApiOperation("订单发货")
-    public void orderDelivered(@RequestParam Integer orderNo){
-
+    public ApiRestResponse<Object> orderDelivered(@RequestParam String orderNo){
+        orderService.deliver(orderNo);
+        return ApiRestResponse.success();
     }
 
     @PostMapping("/finish")
     @ApiOperation("订单完结")
-    public void orderFinish(@RequestParam Integer orderNo){
+    public ApiRestResponse orderFinish(@RequestParam String orderNo){
+        orderService.finish(orderNo);
+        return ApiRestResponse.success();
 
     }
 

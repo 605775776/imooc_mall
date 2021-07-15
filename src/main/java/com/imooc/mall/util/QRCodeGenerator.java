@@ -24,7 +24,7 @@ public class QRCodeGenerator {
 
     public static void main(String[] args) {
         try {
-            generateQRCodeImage("唐格大傻逼！",350, 350,"D:/data/QRTesta.png");
+            generateQRCodeImage("123123",350, 350,"D:/data/QRTest1.png");
         } catch (WriterException e) {
             e.printStackTrace();
         } catch (IOException e) {

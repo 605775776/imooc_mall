@@ -23,4 +23,6 @@ public interface OrderMapper {
 
     List<Order> selectForCustomer(Integer userId);
 
+    List<Order> selectAllForAdmin();
+
 }
